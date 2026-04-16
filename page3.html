@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Memory Lane 📸</title>
+<link rel="stylesheet" href="style.css" />
+
+<style>
+.page3-layout {
+  max-width: 900px;
+  margin: 0 auto;
+  padding: 5rem 1.5rem 6rem;
+}
+
+/* ── Gallery Grid ── */
+.gallery-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 12px;
+}
+
+/* BIG HERO */
+.gallery-item:first-child {
+  aspect-ratio: 16 / 9;
+}
+
+/* SMALL */
+.gallery-item:nth-child(2),
+.gallery-item:nth-child(3) {
+  aspect-ratio: 1 / 1;
+}
+
+@media (min-width: 500px) {
+  .gallery-grid {
+    grid-template-columns: 1fr 1fr;
+  }
+  .gallery-item:first-child {
+    grid-column: span 2;
+    aspect-ratio: 16 / 9;
+  }
+}
+
+.gallery-item {
+  overflow: hidden;
+  border-radius: 16px;
+  /* Use contain to avoid triggering repaints on parent */
+  contain: layout paint;
+}
+
+.gallery-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: transform 0.35s ease;
+  /* Promote to GPU layer */
+  will-change: transform;
+}
+
+/* Only apply hover scale on non-touch devices */
+@media (hover: hover) {
+  .gallery-item:hover .gallery-img {
+    transform: scale(1.05);
+  }
+}
+
+.page3-header {
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.nav-btns {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: 2.5rem;
+}
+</style>
+</head>
+
+<body>
+
+<div class="page3-layout">
+
+  <!-- HEADER -->
+  <div class="page3-header fade-up">
+    <span class="intro-label">✦ memories that matter ✦</span>
+
+    <h1 class="serif-title">
+      Memory Lane <span class="rose-text">📸</span>
+    </h1>
+
+    <p class="serif-italic" style="margin-top:0.5rem">
+      Moments that matter ✨
+    </p>
+
+    <div class="glow-divider"></div>
+  </div>
+
+  <!-- GALLERY -->
+  <div class="gallery-grid">
+
+    <!-- BIG IMAGE -->
+    <div class="gallery-item" data-caption="That smile ✨">
+      <img src="images/1.png" class="gallery-img" loading="lazy" alt="Memory 1">
+    </div>
+
+    <!-- SMALL LEFT -->
+    <div class="gallery-item" data-caption="Golden moment 🌅">
+      <img src="images/2.jpeg" class="gallery-img" loading="lazy" alt="Memory 2">
+    </div>
+
+    <!-- SMALL RIGHT -->
+    <div class="gallery-item" data-caption="Pure joy 😄">
+      <img src="images/3.jpeg" class="gallery-img" loading="lazy" alt="Memory 3">
+    </div>
+
+  </div>
+
+  <!-- NAV -->
+  <div class="nav-btns fade-up">
+    <a href="page1.html" class="btn btn-ghost">← Back</a>
+    <a href="page4.html" class="btn btn-primary">Final Surprise →</a>
+  </div>
+
+</div>
+
+<nav class="nav-dots">
+  <a href="index.html" class="nav-dot" title="Intro"></a>
+  <a href="page1.html" class="nav-dot" title="Message"></a>
+  <a href="page3.html" class="nav-dot active" title="Gallery"></a>
+  <a href="page4.html" class="nav-dot" title="Surprise"></a>
+</nav>
+
+<script>
+/* ── Page transitions ── */
+document.querySelectorAll('a[href]').forEach(a => {
+  a.addEventListener('click', e => {
+    const href = a.getAttribute('href');
+    if (!href || href.startsWith('#') || href.startsWith('http')) return;
+    e.preventDefault();
+    document.body.style.transition = 'opacity 0.4s';
+    document.body.style.opacity = '0';
+    setTimeout(() => { window.location.href = href; }, 400);
+  });
+});
+</script>
+</body>
+</html>
